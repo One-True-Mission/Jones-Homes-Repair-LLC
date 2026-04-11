@@ -1,16 +1,16 @@
 /* ============================================================
-   JONES HOME & REPAIRS — jones-script.js
+   JONES HOME & REPAIRS — script.js
    ============================================================ */
 
-// ── NAV: scroll state ──────────────────────────────────────
+// ── NAV scroll state ───────────────────────────────────────
 const nav = document.getElementById('main-nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
 });
 
 // ── MOBILE MENU ────────────────────────────────────────────
-const hamburger  = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobile-menu');
+const hamburger   = document.getElementById('hamburger');
+const mobileMenu  = document.getElementById('mobile-menu');
 const mobileClose = document.getElementById('mobile-close');
 
 hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
@@ -28,11 +28,47 @@ const observer = new IntersectionObserver((entries) => {
       observer.unobserve(e.target);
     }
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// ── CONTACT FORM SUBMIT ────────────────────────────────────
+// ── PROJECT TABS ───────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+
+    // Update tab buttons
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Update panels
+    document.querySelectorAll('.project-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + target).classList.add('active');
+  });
+});
+
+// ── THUMBNAIL GALLERY SWITCHER ─────────────────────────────
+document.querySelectorAll('.project-panel').forEach(panel => {
+  const mainImg  = panel.querySelector('.gallery-main img');
+  const thumbs   = panel.querySelectorAll('.thumb');
+
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      // Swap main image
+      mainImg.style.opacity = '0';
+      setTimeout(() => {
+        mainImg.src = thumb.dataset.src;
+        mainImg.style.opacity = '1';
+      }, 200);
+
+      // Update active thumb
+      thumbs.forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+    });
+  });
+});
+
+// ── CONTACT FORM ───────────────────────────────────────────
 function handleSubmit(e) {
   e.preventDefault();
   const btn = e.target.querySelector('.form-submit');
