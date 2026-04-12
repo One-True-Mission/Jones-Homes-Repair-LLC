@@ -37,8 +37,7 @@ body::before {
   inset: 0;
   z-index: -2;
   background: url('assets/bg.jpg') center center / cover no-repeat;
-  filter: brightness(0.45);
-  /* No background-attachment:fixed — this approach works on mobile */
+  filter: brightness(0.55);
 }
 
 /* Fallback solid so nothing is ever pure white */
@@ -286,34 +285,53 @@ nav.scrolled {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   display: flex;
-  border-top: 1px solid rgba(212,168,83,0.2);
   z-index: 1;
+  /* Solid dark base with gold top rule */
+  border-top: 1px solid rgba(212,168,83,0.5);
+  background: rgba(8,7,6,0.75);
 }
 
 .hero-stat {
   flex: 1;
-  padding: 1.2rem 2rem;
+  padding: 1.4rem 2rem;
   border-right: 1px solid rgba(212,168,83,0.15);
-  background: rgba(13,12,11,0.45);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
 }
 
+/* Gold top accent that slides in on hover */
+.hero-stat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.hero-stat:hover { background: rgba(46,35,24,0.5); }
+.hero-stat:hover::before { transform: scaleX(1); }
 .hero-stat:last-child { border-right: none; }
 
 .hero-stat-num {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: var(--gold);
   line-height: 1;
+  letter-spacing: -0.02em;
 }
 
 .hero-stat-label {
   font-family: var(--font-mono);
   font-size: 0.58rem;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: rgba(240,232,216,0.5);
-  margin-top: 0.35rem;
+  color: rgba(240,232,216,0.45);
+  margin-top: 0.4rem;
 }
 
 /* ── CAROUSEL STRIP ────────────────────────────────────── */
@@ -321,37 +339,67 @@ nav.scrolled {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  border-top: 1px solid rgba(212,168,83,0.2);
-  border-bottom: 1px solid rgba(212,168,83,0.2);
-  background: rgba(13,12,11,0.55);
+  background: rgba(8,7,6,0.72);
+  /* Double gold border — top and bottom with gap */
+  border-top: 1px solid rgba(212,168,83,0.55);
+  border-bottom: 1px solid rgba(212,168,83,0.55);
+  /* Inner shadow to give depth */
+  box-shadow:
+    inset 0 1px 0 rgba(212,168,83,0.08),
+    inset 0 -1px 0 rgba(212,168,83,0.08);
+}
+
+/* Fade edges so text dissolves into background */
+.carousel-strip::before,
+.carousel-strip::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.carousel-strip::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(8,7,6,0.9), transparent);
+}
+
+.carousel-strip::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(8,7,6,0.9), transparent);
 }
 
 .carousel-track {
   display: flex;
   align-items: center;
   white-space: nowrap;
-  animation: marquee 35s linear infinite;
+  animation: marquee 40s linear infinite;
   width: max-content;
-  padding: 1rem 0;
+  padding: 1.1rem 0;
 }
 
 .carousel-track span {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--cream);
-  opacity: 0.7;
-  padding: 0 2rem;
+  opacity: 0.6;
+  padding: 0 2.5rem;
   display: inline-block;
+  transition: opacity 0.2s;
 }
+
+.carousel-track span:hover { opacity: 1; }
 
 .carousel-track .dot {
   color: var(--gold);
-  font-size: 0.45rem;
-  opacity: 1;
+  font-size: 0.4rem;
+  opacity: 0.8;
   padding: 0;
   vertical-align: middle;
+  flex-shrink: 0;
 }
 
 @keyframes marquee {
@@ -384,7 +432,7 @@ nav.scrolled {
 section { position: relative; z-index: 1; }
 
 section.panel {
-  background: rgba(10,9,8,0.78);
+  background: rgba(10,9,8,0.62);
 }
 
 .section-inner {
@@ -446,13 +494,13 @@ section.panel {
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: 1px solid rgba(212,168,83,0.18);
+  border: 1px solid rgba(212,168,83,0.2);
 }
 
-/* Each card: left gold border accent, number in corner */
+/* Each card: left gold border accent, number top-right */
 .service-card {
-  background: rgba(13,12,11,0.0);
-  padding: 2rem 2rem 2rem 2.5rem;
+  background: rgba(8,7,6,0.45);
+  padding: 2.2rem 2rem 2rem 2.2rem;
   border-right: 1px solid rgba(212,168,83,0.12);
   border-bottom: 1px solid rgba(212,168,83,0.12);
   position: relative;
@@ -460,54 +508,64 @@ section.panel {
   transition: background 0.3s;
 }
 
-/* Gold left accent bar */
+/* Gold left accent bar slides down on hover */
 .service-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0;
-  width: 3px;
+  width: 2px;
   height: 0;
-  background: var(--gold);
-  transition: height 0.35s ease;
+  background: linear-gradient(to bottom, var(--gold), rgba(212,168,83,0.3));
+  transition: height 0.4s ease;
 }
 
-.service-card:hover { background: rgba(46,35,24,0.45); }
+.service-card:hover { background: rgba(46,35,24,0.55); }
 .service-card:hover::before { height: 100%; }
 
-/* Card number watermark */
+/* Visible watermark number — gold, readable */
 .service-card::after {
   content: attr(data-num);
   position: absolute;
-  top: 1rem;
-  right: 1.2rem;
+  top: 0.8rem;
+  right: 1rem;
   font-family: var(--font-display);
-  font-size: 3.5rem;
+  font-size: 2.8rem;
   font-weight: 700;
-  color: rgba(212,168,83,0.07);
+  color: rgba(212,168,83,0.12);
   line-height: 1;
   pointer-events: none;
+  transition: color 0.3s;
 }
 
+.service-card:hover::after {
+  color: rgba(212,168,83,0.22);
+}
+
+/* Gold line under icon */
 .service-icon {
   font-size: 1.5rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
   display: block;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(212,168,83,0.2);
+  width: fit-content;
 }
 
 .service-name {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--white);
   margin-bottom: 0.5rem;
+  margin-top: 0.6rem;
 }
 
 .service-desc {
-  font-size: 0.83rem;
-  line-height: 1.7;
-  color: rgba(240,232,216,0.5);
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: rgba(240,232,216,0.52);
 }
 
 /* ── PROJECTS ──────────────────────────────────────────── */
