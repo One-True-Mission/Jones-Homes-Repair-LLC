@@ -167,8 +167,8 @@ nav.scrolled {
   position: relative;
   min-height: 100vh;
   display: flex;
-  align-items: flex-end;
-  padding: 0 4rem 7rem;
+  align-items: flex-start;
+  padding: 12rem 4rem 5rem;
   overflow: hidden;
 }
 
@@ -340,11 +340,9 @@ nav.scrolled {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  background: rgba(8,7,6,0.72);
-  /* Double gold border — top and bottom with gap */
+  background: rgba(8,7,6,0.45);
   border-top: 1px solid rgba(212,168,83,0.55);
   border-bottom: 1px solid rgba(212,168,83,0.55);
-  /* Inner shadow to give depth */
   box-shadow:
     inset 0 1px 0 rgba(212,168,83,0.08),
     inset 0 -1px 0 rgba(212,168,83,0.08);
@@ -414,8 +412,9 @@ nav.scrolled {
 .section-break {
   position: relative;
   z-index: 1;
-  height: 100px;
+  height: 120px;
   background: transparent;
+  /* No overlay — raw background photo shows through completely */
 }
 
 .section-break::before {
@@ -426,14 +425,30 @@ nav.scrolled {
   transform: translate(-50%, -50%);
   width: 50px;
   height: 1px;
-  background: rgba(212,168,83,0.35);
+  background: rgba(212,168,83,0.5);
 }
 
 /* ── SECTION BASE ──────────────────────────────────────── */
 section { position: relative; z-index: 1; }
 
+/* Sections are transparent — the card is contained inside */
 section.panel {
-  background: rgba(10,9,8,0.48);
+  background: transparent;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* The inner card floats with space on both sides */
+section.panel .section-inner {
+  background: rgba(10,9,8,0.72);
+  border: 1px solid rgba(212,168,83,0.3);
+  border-top: 3px solid rgba(212,168,83,0.6);
+  border-radius: 12px;
+  padding: 5rem 3.5rem;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.45),
+    0 2px 8px rgba(0,0,0,0.3),
+    0 0 0 1px rgba(212,168,83,0.08);
 }
 
 .section-inner {
@@ -474,7 +489,7 @@ section.panel {
 }
 
 /* ── SERVICES ──────────────────────────────────────────── */
-#services { padding: 6rem 0; }
+#services { padding: 0 2rem; }
 
 .services-header {
   display: grid;
@@ -569,7 +584,7 @@ section.panel {
 }
 
 /* ── PROJECTS ──────────────────────────────────────────── */
-#projects { padding: 6rem 0; }
+#projects { padding: 0 2rem; }
 
 .projects-intro {
   font-size: 1rem;
@@ -729,7 +744,7 @@ section.panel {
 }
 
 /* ── PROCESS ───────────────────────────────────────────── */
-#process { padding: 6rem 0; }
+#process { padding: 0 2rem; }
 
 .process-header { text-align: center; }
 
@@ -802,7 +817,7 @@ section.panel {
 }
 
 /* ── ABOUT ─────────────────────────────────────────────── */
-#about { padding: 6rem 0; }
+#about { padding: 0 2rem; }
 
 .about-wrap {
   display: grid;
@@ -861,7 +876,7 @@ section.panel {
 }
 
 /* ── CONTACT ───────────────────────────────────────────── */
-#contact { padding: 6rem 0; border-top: none; }
+#contact { padding: 0 2rem; border-top: none; }
 
 .contact-wrap {
   display: grid;
@@ -1049,8 +1064,8 @@ footer {
   .nav-links, .nav-cta { display: none; }
   .hamburger { display: flex; }
 
-  /* Hero: tighter top gap on mobile */
-  #hero { padding: 0 1.5rem 8rem; min-height: 100svh; }
+  /* Hero: tighter on mobile, text starts higher */
+  #hero { padding: 9rem 1.5rem 5rem; min-height: 100svh; align-items: flex-start; }
   .hero-stats { flex-wrap: wrap; }
   .hero-stat { flex: 1 1 50%; padding: 1rem 1.2rem; }
 
@@ -1064,7 +1079,8 @@ footer {
 
   footer { flex-direction: column; align-items: flex-start; padding: 2rem 1.5rem; }
   .section-inner { padding: 0 1.5rem; }
-  #services, #projects, #process, #about, #contact { padding: 4rem 0; }
+  section.panel .section-inner { padding: 3rem 1.5rem; border-radius: 10px; }
+  #services, #projects, #process, #about, #contact { padding: 0 1rem; }
   .section-break { height: 70px; }
 }
 
@@ -1077,6 +1093,6 @@ footer {
   .tab-btn { padding: 0.9rem 0.8rem; font-size: 0.62rem; letter-spacing: 0.12em; }
   .gallery-thumbs { gap: 0.4rem; }
 
-  /* On very small screens, tighten section breaks */
   .section-break { height: 50px; }
+  #services, #projects, #process, #about, #contact { padding: 0 0.75rem; }
 }
