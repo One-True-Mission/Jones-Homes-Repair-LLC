@@ -13,11 +13,19 @@ const hamburger   = document.getElementById('hamburger');
 const mobileMenu  = document.getElementById('mobile-menu');
 const mobileClose = document.getElementById('mobile-close');
 
-hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
-mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+function toggleMenu() {
+  mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('open');
+}
+
+hamburger.addEventListener('click', toggleMenu);
+if (mobileClose) mobileClose.addEventListener('click', toggleMenu);
 
 document.querySelectorAll('.mobile-link').forEach(link => {
-  link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+  });
 });
 
 // ── SCROLL REVEAL ──────────────────────────────────────────
